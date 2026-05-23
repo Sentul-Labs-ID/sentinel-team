@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="SENTINEL — Cyber-Resilient AI Logistics Intelligence Platform. Independent postgraduate team for AI Open Innovation Challenge 2026." />
+<meta name="robots" content="noindex, nofollow" />
+<title>SENTINEL — Cyber-Resilient AI Logistics</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:          #0a0e14;
+    --bg-elev:    #0f1419;
+    --bg-card:    #131922;
+    --border:      #1f2937;
+    --border-hi:  #334155;
+    --text:        #e6edf3;
+    --text-dim:   #94a3b8;
+    --text-faint:  #64748b;
+    --accent:     #f59e0b;
+    --accent-dim: #b45309;
+    --green:       #10b981;
+    --blue:        #3b82f6;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+    --serif: 'Fraunces', Georgia, serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(245, 158, 11, 0.06) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.04) 0%, transparent 40%);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 2px,
+        rgba(255, 255, 255, 0.012) 2px, rgba(255, 255, 255, 0.012) 3px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* status bar */
+  .status-bar {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    font-size: 12px;
+    color: var(--text-faint);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+    background: rgba(15, 20, 25, 0.85);
+  }
+  .status-bar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .status-left { display: flex; align-items: center; gap: 12px; }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .status-tag { color: var(--text-dim); letter-spacing: 0.5px; }
+
+  /* hero */
+  .hero {
+    padding: 96px 0 72px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-meta {
+    color: var(--text-faint);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-meta::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(48px, 9vw, 96px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    margin-bottom: 32px;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: clamp(15px, 1.6vw, 18px);
+    color: var(--text-dim);
+    max-width: 640px;
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+  .hero-badges { display: flex; gap: 12px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border: 1px solid var(--border-hi);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+  }
+  .badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* sections */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+    font-size: 12px;
+    color: var(--text-faint);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-label::before {
+    content: counter(section-counter, decimal-leading-zero);
+    counter-increment: section-counter;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  body { counter-reset: section-counter; }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4.5vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 32px;
+    max-width: 800px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-body {
+    color: var(--text-dim);
+    max-width: 720px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .section-body p + p { margin-top: 18px; }
+  .section-body strong { color: var(--text); font-weight: 500; }
+
+  /* team */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 16px;
+  }
+  .team-member {
+    background: var(--bg-card);
+    padding: 32px 28px;
+    transition: background 0.2s ease;
+  }
+  .team-member:hover { background: var(--bg-elev); }
+  .member-id {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .member-name {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .member-role {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--border-hi);
+  }
+  .member-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+  .member-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: var(--accent);
+    border-radius: 3px;
+    letter-spacing: 0.3px;
+  }
+
+  /* differentiators */
+  .diff-list { display: grid; gap: 24px; margin-top: 16px; }
+  .diff-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    padding: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    transition: border-left-color 0.2s ease, transform 0.2s ease;
+  }
+  .diff-item:hover {
+    border-left-color: var(--text);
+    transform: translateX(4px);
+  }
+  .diff-num {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .diff-content h3 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .diff-content p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  /* expertise */
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .expertise-card {
+    padding: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: border-color 0.2s ease;
+  }
+  .expertise-card:hover { border-color: var(--accent); }
+  .expertise-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .expertise-card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* contact */
+  .contact-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 40px;
+    margin-top: 16px;
+  }
+  .contact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px dashed var(--border-hi);
+    font-size: 14px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-label { color: var(--text-faint); letter-spacing: 0.5px; }
+  .contact-value { color: var(--text); font-weight: 500; }
+  .placeholder { color: var(--text-faint); font-style: italic; }
+
+  /* footer */
+  footer {
+    padding: 40px 0;
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  footer p + p { margin-top: 8px; }
+
+  /* responsive */
+  @media (max-width: 640px) {
+    .container { padding: 0 20px; }
+    .hero { padding: 64px 0 48px; }
+    section { padding: 56px 0; }
+    .status-bar-inner { font-size: 11px; }
+    .diff-item { grid-template-columns: 1fr; gap: 12px; }
+    .contact-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+  }
+
+  /* animations */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease forwards;
+  }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+</style>
+</head>
+
+<body>
+
+<div class="status-bar">
+  <div class="container status-bar-inner">
+    <div class="status-left">
+      <span class="status-dot"></span>
+      <span class="status-tag">team.status: assembled</span>
+    </div>
+    <span class="status-tag">AI Open Innovation Challenge 2026 / Logistics Sector</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-meta fade-in">PROJECT // SENTINEL // CASE: BLIBLI / 01</div>
+    <h1 class="hero-title fade-in delay-1">
+      Cyber-resilient AI for Indonesia's <em>logistics backbone</em>.
+    </h1>
+    <p class="hero-sub fade-in delay-2">
+      An independent team of five postgraduate engineers building
+      <strong>SENTINEL</strong> — an AI-powered logistics intelligence
+      platform that goes beyond optimization to address what conventional
+      solutions overlook: trust, integrity, and resilience.
+    </p>
+    <div class="hero-badges fade-in delay-3">
+      <span class="badge"><span class="badge-dot"></span>Verifiable Carbon</span>
+      <span class="badge"><span class="badge-dot"></span>Fraud Detection</span>
+      <span class="badge"><span class="badge-dot"></span>Cascade Resilience</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">Who We Are</div>
+    <h2 class="section-title">A team built for the <em>layer above accuracy</em>.</h2>
+    <div class="section-body">
+      <p>
+        Most teams entering AI logistics challenges optimize for model accuracy.
+        We optimize for the layer above that — the <strong>integrity, fraud-resistance, and
+        disruption-resilience</strong> that production logistics actually demands at scale.
+      </p>
+      <p>
+        Our combined background spans cybersecurity engineering, threat modeling,
+        anomaly detection, distributed systems, and applied machine learning.
+        We come together for this challenge because we believe Indonesian
+        e-commerce logistics has reached an inflection point — speed and cost
+        optimization alone are no longer enough.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">The Team</div>
+    <h2 class="section-title">Five engineers. <em>One mission.</em></h2>
+    <p class="section-body" style="margin-bottom:40px;">
+      Each role is held by a single owner. Each owner is accountable end-to-end
+      for their area of the system.
+    </p>
+
+    <div class="team-grid">
+      <article class="team-member">
+        <div class="member-id">// MEMBER 01</div>
+        <h3 class="member-name">Syadad Aulia Rahman</h3>
+        <div class="member-role">Project Manager &amp; Proposal Lead</div>
+        <p class="member-desc">
+          Coordinates the team, drives scope and milestone delivery, ensures
+          every contribution lands cohesively in the final proposal.
+        </p>
+        <div class="member-tags">
+          <span class="tag">Project Management</span>
+          <span class="tag">Strategy</span>
+          <span class="tag">Coordination</span>
+        </div>
+      </article>
+
+      <article class="team-member">
+        <div class="member-id">// MEMBER 02</div>
+        <h3 class="member-name">Rifandi Indrayudha Prawira</h3>
+        <div class="member-role">Technical Architect</div>
+        <p class="member-desc">
+          Owns system architecture and data pipeline design. Translates
+          conceptual requirements into a buildable, scalable technical blueprint.
+        </p>
+        <div class="member-tags">
+          <span class="tag">System Architecture</span>
+          <span class="tag">Data Pipelines</span>
+          <span class="tag">Distributed Systems</span>
+        </div>
+      </article>
+
+      <article class="team-member">
+        <div class="member-id">// MEMBER 03</div>
+        <h3 class="member-name">Joesavat Donovan</h3>
+        <div class="member-role">Cyber-Resilience Lead</div>
+        <p class="member-desc">
+          Designs the differentiating layers of SENTINEL — Trust &amp; Resilience,
+          Fraud Detection, and Cascade Simulation. The security-engineering
+          mindset that defines our edge.
+        </p>
+        <div class="member-tags">
+          <span class="tag">Threat Modeling</span>
+          <span class="tag">Anomaly Detection</span>
+          <span class="tag">Zero-Trust Design</span>
+        </div>
+      </article>
+
+      <article class="team-member">
+        <div class="member-id">// MEMBER 04</div>
+        <h3 class="member-name">Akbar Farizky</h3>
+        <div class="member-role">Business &amp; Impact Lead</div>
+        <p class="member-desc">
+          Translates technical capability into measurable business outcome.
+          Owns market research, ESG context, and impact quantification.
+        </p>
+        <div class="member-tags">
+          <span class="tag">Business Analysis</span>
+          <span class="tag">ESG</span>
+          <span class="tag">Impact Modeling</span>
+        </div>
+      </article>
+
+      <article class="team-member">
+        <div class="member-id">// MEMBER 05</div>
+        <h3 class="member-name">Chandra Yedija K</h3>
+        <div class="member-role">Quality &amp; Validation Lead</div>
+        <p class="member-desc">
+          The team's final reader. Audits every deliverable for compliance,
+          consistency, and clarity before it leaves the team.
+        </p>
+        <div class="member-tags">
+          <span class="tag">Quality Assurance</span>
+          <span class="tag">Validation</span>
+          <span class="tag">Risk Assessment</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">Differentiators</div>
+    <h2 class="section-title">Three things SENTINEL does that <em>nothing else</em> does well.</h2>
+
+    <div class="diff-list">
+      <div class="diff-item">
+        <div class="diff-num">01</div>
+        <div class="diff-content">
+          <h3>Verifiable Carbon Accounting</h3>
+          <p>
+            Cryptographically auditable emission tracking. Every shipment-level
+            calculation is anchored with SHA-256 provenance and Merkle-tree
+            aggregation, producing carbon reports that withstand external ESG
+            audit — not just satisfy internal reporting.
+          </p>
+        </div>
+      </div>
+
+      <div class="diff-item">
+        <div class="diff-num">02</div>
+        <div class="diff-content">
+          <h3>Multi-Vector Fraud Detection</h3>
+          <p>
+            Predictive ML detection across the high-impact fraud vectors of
+            Indonesian e-commerce: driver collusion, ghost delivery, GPS spoofing,
+            and COD syndicate behavior. Graph analytics, anomaly detection,
+            and behavioral signals — combined, not in isolation.
+          </p>
+        </div>
+      </div>
+
+      <div class="diff-item">
+        <div class="diff-num">03</div>
+        <div class="diff-content">
+          <h3>Cascading Failure Simulation</h3>
+          <p>
+            Graph-based ripple-effect modeling over the hub network. Predicts
+            how a single hub disruption propagates across the system — and
+            recommends pre-emptive load balancing before the cascade begins.
+            Designed for peak events: Lebaran, Harbolnas, 9.9, 11.11.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">Technical Foundation</div>
+    <h2 class="section-title">Combined expertise across <em>five complementary domains</em>.</h2>
+
+    <div class="expertise-grid">
+      <div class="expertise-card">
+        <h4>// Cybersecurity Engineering</h4>
+        <p>Threat modeling, secure systems design, adversarial robustness, zero-trust architecture patterns.</p>
+      </div>
+      <div class="expertise-card">
+        <h4>// Machine Learning</h4>
+        <p>Supervised, unsupervised, and graph-based methods applied to operational and behavioral data.</p>
+      </div>
+      <div class="expertise-card">
+        <h4>// Data Engineering</h4>
+        <p>Streaming and batch pipelines, integrity validation, audit-grade provenance and lineage.</p>
+      </div>
+      <div class="expertise-card">
+        <h4>// Systems Thinking</h4>
+        <p>Distributed-system resilience patterns, cascading-failure analysis, capacity planning.</p>
+      </div>
+      <div class="expertise-card">
+        <h4>// Applied Research</h4>
+        <p>Translating academic methods into production-ready systems with measurable business impact.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">For inquiries about <em>this proposal</em>.</h2>
+
+    <div class="contact-box">
+      <div class="contact-row">
+        <span class="contact-label">// TEAM LEAD</span>
+        <span class="contact-value">Syadad Aulia Rahman</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">// EMAIL</span>
+        <span class="contact-value placeholder">[INSERT TEAM EMAIL]</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">// WHATSAPP</span>
+        <span class="contact-value placeholder">[INSERT WHATSAPP NUMBER]</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">// SUBMISSION</span>
+        <span class="contact-value">AI Open Innovation Challenge 2026 — Logistics Sector</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>SENTINEL — Cyber-Resilient AI Logistics Intelligence Platform</p>
+    <p style="opacity:0.6;margin-top:6px;">
+      An original concept developed for the AI Open Innovation Challenge 2026.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
